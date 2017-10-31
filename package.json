@@ -1,0 +1,19 @@
+{
+  "name": "function-programing-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["ramdajs", "promise"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "joi": "^13.0.1",
+    "lodash": "^4.17.4",
+    "nirvana-logger": "^2.0.4",
+    "ramda": "^0.25.0"
+  }
+}
