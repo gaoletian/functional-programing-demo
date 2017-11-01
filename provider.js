@@ -76,8 +76,7 @@ const addUser = (param) => {
 const then200 = (fn200 = L('200')) => (result) => {
   if (isSuccess(result))
     return fn200.call(this, result);
-  L('错误结果')(result);
-  throw result.data;
+  throw new Error(JSON.stringify(result));
 };
 /**
  * 统一处理801
@@ -86,8 +85,7 @@ const then200 = (fn200 = L('200')) => (result) => {
 const then801 = (fn801 = L('801')) => (result) => {
   if (isNoResult(result))
     return fn801.call(this, result);
-  L('错误结果')(result);
-  throw result.data;
+  throw new Error(JSON.stringify(result));
 };
 
 module.exports = {
@@ -101,15 +99,15 @@ module.exports = {
       return makePromise({code: 200, data: {jieaUserId: 123}});
     },
     register() {
-      return makePromise({code: 200, data: {bing: 123}});
+      return makePromise({code: 200, data: {}});
     },
     userTransfer() {
       return makePromise({code: 200, data: 'userTransfer'});
     },
+    L
   },
   nirvana: {
     addUser(userData) {
-      L('addUser入参')(userData);
       const schema = joi.object({
         mobile    : joi.string(),
         jieaUserId: joi.number().integer(),
