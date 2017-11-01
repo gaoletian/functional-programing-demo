@@ -6,37 +6,34 @@ const P = require('./provider');
 const R = require('ramda');
 const logger = require('nirvana-logger')('demo');
 
-const L = (description) => (...arg) => {
-  logger(description, '==>', ...arg);
+const L = (description = '', spliter = '==>') => (...arg) => {
+  logger(...R.concat([description, spliter], arg));
   return Promise.resolve(...arg);
 };
+const resolve = (res) => Promise.resolve(res);
+const printParam = L('入参');
+const print = L();
+const printError = L('错误');
 
 const {jiea, nirvana, then200, then801} = P;
 
 const register = (request) => {
-  L('入参')(request.payload);
+  printParam(request.payload);
   return R.pipeP(
       jiea.register,
       then200((result) => {
         const userDate = {mobile: request.payload.mobile, jieaUserId: result.data.bing};
-        return Promise.resolve(userDate);
+        return resolve(userDate);
       }),
       nirvana.addUser,
-      then200((result) => {
-        L('nirvana.addUser')(result);
-      }),
+      then200(result => printError(result)),
       jiea.userTransfer,
       then200((result) => {
-        L('jiea.userTransfer')(result);
+        print(result);
       }),
   )();
 };
 
-register({
-  payload: {
-    mobile : '13320649683',
-    smsCode: '1234',
-    channel: 'kaniu',
-    sign   : '234234234',
-  },
-}, L('reply')).catch(L('系统异常'));
+const request = {payload: {mobile: '13320649683', smsCode: '1234', channel: 'kaniu', sign: '234234234',},};
+
+register(request).catch(printError);

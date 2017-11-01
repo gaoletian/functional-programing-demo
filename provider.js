@@ -71,7 +71,6 @@ const addUser = (param) => {
 
 /**
  * 统一处理200
- * @param request
  * @param fn200
  */
 const then200 = (fn200 = L('200')) => (result) => {
@@ -82,7 +81,6 @@ const then200 = (fn200 = L('200')) => (result) => {
 };
 /**
  * 统一处理801
- * @param request
  * @param fn801
  */
 const then801 = (fn801 = L('801')) => (result) => {
